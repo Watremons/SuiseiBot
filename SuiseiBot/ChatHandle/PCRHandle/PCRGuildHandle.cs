@@ -1,7 +1,8 @@
 using System;
 using Native.Sdk.Cqp;
 using Native.Sdk.Cqp.EventArgs;
-using SuiseiBot.Code.PCRGuildManager;
+using SuiseiBot.Code.OrderManager.PCRGuildManager;
+using SuiseiBot.Code.Resource.CommandHelp;
 using SuiseiBot.Code.Resource.Commands;
 using SuiseiBot.Code.Resource.TypeEnum.CmdType;
 using SuiseiBot.Code.Tool.LogUtils;

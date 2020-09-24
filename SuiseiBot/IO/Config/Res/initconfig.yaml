@@ -10,7 +10,7 @@ ModuleSwitch:
   #切噜语翻译
   Cheru: false
   #奇怪的娱乐功能 (随机禁言啥的)
-  HaveFun: true
+  HaveFun: false
   #随机色图
   Hso: false
   #公会战管理
@@ -21,6 +21,8 @@ ModuleSwitch:
   Suisei: false
   #调试模块
   Debug: false
+  #拍卖Bot模块
+  Auction: true
 
 # 随机色图设置
 HsoConfig:
@@ -38,5 +40,5 @@ SubscriptionConfig:
   #群组订阅设置
   GroupsConfig:
     - GroupId: [] #群号，可以一次设置多个群
-      PCR_Subscription: true #PCR国服动态订阅
+      PCR_Subscription: false #PCR国服动态订阅
       SubscriptionId: [] #B站用户ID

@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using SqlSugar;
 using SuiseiBot.Code.Resource.TypeEnum;
+using SuiseiBot.Code.Resource.TypeEnum.AuctionType;
 using SuiseiBot.Code.Resource.TypeEnum.GuildBattleType;
+using FlagType = SuiseiBot.Code.Resource.TypeEnum.GuildBattleType.FlagType;
 
 namespace SuiseiBot.Code.DatabaseUtils
 {
@@ -307,6 +309,196 @@ namespace SuiseiBot.Code.DatabaseUtils
 
             return initInfos;
         }
+    }
+    #endregion
+
+    #endregion
+
+    #region 拍卖游戏数据表定义
+
+    #region 拍卖会数据表定义
+    [SugarTable("auction")]
+    internal class AuctionInfo
+    {
+        /// <summary>
+        /// 拍卖会所属群号
+        /// </summary>
+        [SugarColumn(ColumnName = "aid", ColumnDataType = "INTEGER", IsPrimaryKey = true)]
+        public long Aid { get; set; }
+
+        /// <summary>
+        /// 拍卖会名
+        /// </summary>
+        [SugarColumn(ColumnName = "name", ColumnDataType = "VARCHAR")]
+        public string AuctionName { get; set; }
+
+        /// <summary>
+        /// 当前拍卖品的轮次
+        /// </summary>
+        [SugarColumn(ColumnName = "round", ColumnDataType = "INTEGER")]
+        public long Round { get; set; }
+
+        /// <summary>
+        /// 当前拍卖品起拍价
+        /// </summary>
+        [SugarColumn(ColumnName = "curr_start_bid", ColumnDataType = "INTEGER")]
+        public long CurrStartBid { get; set; }
+
+        /// <summary>
+        /// 当前拍卖品加价幅度
+        /// </summary>
+        [SugarColumn(ColumnName = "curr_range_bid", ColumnDataType = "INTEGER")]
+        public long CurrRangeBid { get; set; }
+
+        /// <summary>
+        /// 当前拍卖品价格
+        /// </summary>
+        [SugarColumn(ColumnName = "curr_bid", ColumnDataType = "INTEGER")]
+        public long CurrBid { get; set; }
+
+        /// <summary>
+        /// 公会是否在会战
+        /// </summary>
+        [SugarColumn(ColumnName = "in_auction", ColumnDataType = "INTEGER")]
+        public bool InAuction { get; set; }
+    }
+    #endregion
+
+    #region 拍卖会小组定义
+    [SugarTable("group")]
+    internal class GroupInfo
+    {
+        /// <summary>
+        /// 拍卖小组所在群号，同时标识所在拍卖会
+        /// </summary>
+        [SugarColumn(ColumnName = "aid", ColumnDataType = "INTEGER", IsPrimaryKey = true)]
+        public long Aid { get; set; }
+
+        /// <summary>
+        /// 拍卖小组组号
+        /// </summary>
+        [SugarColumn(ColumnName = "gid", ColumnDataType = "INTEGER", IsPrimaryKey = true)]
+        public long Gid { get; set; }
+
+        /// <summary>
+        /// 拍卖小组组名
+        /// </summary>
+        [SugarColumn(ColumnName = "name", ColumnDataType = "VARCHAR")]
+        public string GroupName { get; set; }
+
+        /// <summary>
+        /// 当前已获得总价值
+        /// </summary>
+        [SugarColumn(ColumnName = "curr_value", ColumnDataType = "INTEGER")]
+        public long CurrValue { get; set; }
+
+        /// <summary>
+        /// 当前账户资金
+        /// </summary>
+        [SugarColumn(ColumnName = "curr_amount", ColumnDataType = "INTEGER")]
+        public long CurrAmount { get; set; }
+    }
+    #endregion
+
+    #region 拍卖会小组成员表定义
+    [SugarTable("member")]
+    internal class AuctionMemberInfo
+    {
+        /// <summary>
+        /// 拍卖小组组号
+        /// </summary>
+        [SugarColumn(ColumnName = "gid", ColumnDataType = "INTEGER", IsPrimaryKey = true)]
+        public long Gid { get; set; }
+
+        /// <summary>
+        /// 用户的QQ号
+        /// </summary>
+        [SugarColumn(ColumnName = "qid", ColumnDataType = "INTEGER", IsPrimaryKey = true)]
+        public long Qid { get; set; }
+
+        /// <summary>
+        /// 用户等级标志
+        /// </summary>
+        [SugarColumn(ColumnName = "flag", ColumnDataType = "INTEGER")]
+        public FlagType Flag { get; set; }
+    }
+    #endregion
+
+    #region 拍卖品数据定义
+    [SugarTable("auction_lot")]
+    internal class AuctionLot
+    {
+        /// <summary>
+        /// 拍卖品所属拍卖会，同时也标识拍卖会
+        /// </summary>
+        [SugarColumn(ColumnName = "aid", ColumnDataType = "INTEGER", IsPrimaryKey = true)]
+        public long Aid { get; set; }
+
+        /// <summary>
+        /// 当前拍卖品的轮次
+        /// </summary>
+        [SugarColumn(ColumnName = "round", ColumnDataType = "INTEGER", IsPrimaryKey = true)]
+        public long Round { get; set; }
+
+        /// <summary>
+        /// 当前拍卖品价值
+        /// </summary>
+        [SugarColumn(ColumnName = "value", ColumnDataType = "INTEGER")]
+        public long Value { get; set; }
+
+        /// <summary>
+        /// 当前拍卖品起拍价
+        /// </summary>
+        [SugarColumn(ColumnName = "start_bid", ColumnDataType = "INTEGER")]
+        public long StartBid { get; set; }
+
+        /// <summary>
+        /// 当前拍卖品加价幅度
+        /// </summary>
+        [SugarColumn(ColumnName = "range_bid", ColumnDataType = "INTEGER")]
+        public long RangeBid { get; set; }
+    }
+    #endregion
+
+    #region 出价记录表定义
+    [SugarTable("auction_bid")]
+    internal class AuctionBid
+    {
+        /// <summary>
+        /// 记录编号[自增]
+        /// </summary>
+        [SugarColumn(ColumnName = "rid", ColumnDataType = "INTEGER", IsIdentity = true, IsPrimaryKey = true)]
+        public int Rid { get; set; }
+
+        /// <summary>
+        /// 出价小组组号
+        /// </summary>
+        [SugarColumn(ColumnName = "gid", ColumnDataType = "INTEGER")]
+        public long Gid { get; set; }
+
+        /// <summary>
+        /// 记录产生时间
+        /// </summary>
+        [SugarColumn(ColumnName = "time", ColumnDataType = "INTEGER")]
+        public long Time { get; set; }
+
+        /// <summary>
+        /// 目标拍卖品轮次
+        /// </summary>
+        [SugarColumn(ColumnName = "round", ColumnDataType = "INTEGER")]
+        public int Round { get; set; }
+
+        /// <summary>
+        /// 出价数值
+        /// </summary>
+        [SugarColumn(ColumnName = "price", ColumnDataType = "INTEGER")]
+        public long Price { get; set; }
+
+        /// <summary>
+        /// 出刀类型标记
+        /// </summary>
+        [SugarColumn(ColumnName = "flag", ColumnDataType = "INTEGER")]
+        public BidType BidFlag { get; set; }
     }
     #endregion
 

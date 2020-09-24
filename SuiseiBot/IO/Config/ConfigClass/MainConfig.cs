@@ -62,6 +62,11 @@ namespace SuiseiBot.Code.IO.Config.ConfigClass
         /// 切噜翻译
         /// </summary>
         public bool Cheru { set; get; }
+        /// <summary>
+        /// 拍卖Bot
+        /// </summary>
+        public bool AuctionBot { set; get; }
+
 
         #region 将已启用的模块名转为字符串
         public override string ToString()

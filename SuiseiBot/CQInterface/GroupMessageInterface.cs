@@ -1,6 +1,7 @@
 using System;
 using Native.Sdk.Cqp.EventArgs;
 using SuiseiBot.Code.ChatHandle;
+using SuiseiBot.Code.ChatHandle.AuctionHandle;
 using SuiseiBot.Code.ChatHandle.PCRHandle;
 using SuiseiBot.Code.IO.Config;
 using SuiseiBot.Code.Resource.Commands;
@@ -52,6 +53,23 @@ namespace SuiseiBot.Code.CQInterface
                 pcrGuild.GetChat();
                 return;
             }
+
+            //以*开头的消息全部交给Auction模块处理
+            if(eventArgs.Message.Text.Trim().StartsWith("*") && //检查指令开头
+              config.LoadConfig()                              //加载配置文件
+            )
+            {
+                //检查模块使能
+                if (!config.LoadedConfig.ModuleSwitch.AuctionBot)
+                {
+                    eventArgs.FromGroup.SendGroupMessage("此模块未启用");
+                    return;
+                }
+                AuctionHandle auctionGuild = new AuctionHandle(sender, eventArgs);
+                auctionGuild.GetChat();
+                return;
+            }
+
 
             //全字指令匹配
             WholeMatchCmd.KeyWords.TryGetValue(eventArgs.Message, out WholeMatchCmdType cmdType); //查找关键字

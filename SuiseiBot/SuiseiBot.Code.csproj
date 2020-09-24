@@ -110,6 +110,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChatHandle\AuctionHandle\PrivateAuctionHandle.cs" />
+    <Compile Include="ChatHandle\AuctionHandle\AuctionHandle.cs" />
     <Compile Include="ChatHandle\HsoHandle.cs" />
     <Compile Include="ChatHandle\PCRHandle\CheruHandle.cs" />
     <Compile Include="ChatHandle\PCRHandle\PCRGuildHandle.cs" />
@@ -122,6 +124,7 @@
     <Compile Include="DatabaseUtils\Helpers\SubscriptionDBHelper.cs" />
     <Compile Include="DatabaseUtils\DBMsgUtils.cs" />
     <Compile Include="DatabaseUtils\Tables.cs" />
+    <Compile Include="Resource\CommandHelp\GuildCmdHelp.Designer.cs" />
     <Compile Include="IO\Config\ConfigClass\BiliSubscription.cs" />
     <Compile Include="IO\Config\Config.cs" />
     <Compile Include="IO\Config\ConfigClass\Hso.cs" />
@@ -134,17 +137,20 @@
     <Compile Include="Network\DownloadFileUtils.cs" />
     <Compile Include="Network\HTTPUtils.cs" />
     <Compile Include="Network\NetServiceUtils.cs" />
+    <Compile Include="OrderManager\AuctionManager\AuctionProcessManager.cs" />
+    <Compile Include="OrderManager\AuctionManager\AuctionTeamManager.cs" />
+    <Compile Include="OrderManager\AuctionManager\PrivateAuctionManager.cs" />
     <Compile Include="PluginInfo.cs" />
-    <Compile Include="Resource\CommandHelp\GuildCmdHelp.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GuildCmdHelp.resx</DependentUpon>
-    </Compile>
+    <Compile Include="Resource\Commands\AuctionCmd.cs" />
     <Compile Include="Resource\Commands\WholeMatchCmd.cs" />
-    <Compile Include="PCRGuildManager\GuildBattleManager.cs" />
-    <Compile Include="PCRGuildManager\GuildManager.cs" />
+    <Compile Include="OrderManager\PCRGuildManager\GuildBattleManager.cs" />
+    <Compile Include="OrderManager\PCRGuildManager\GuildManager.cs" />
+    <Compile Include="Resource\CommandHelp\GuildCommandHelp.cs" />
     <Compile Include="Resource\Commands\PCRGuildCmd.cs" />
     <Compile Include="IO\Config\ConfigClass\MainConfig.cs" />
+    <Compile Include="Resource\TypeEnum\AuctionType\BidType.cs" />
+    <Compile Include="Resource\TypeEnum\AuctionType\FlagType.cs" />
+    <Compile Include="Resource\TypeEnum\CmdType\AuctionCmdType.cs" />
     <Compile Include="Resource\TypeEnum\CmdType\WholeMatchCmdType.cs" />
     <Compile Include="Resource\TypeEnum\CmdType\PCRGuildCmdType.cs" />
     <Compile Include="Resource\Commands\KeywordCmd.cs" />
