@@ -1,4 +1,4 @@
-namespace SuiseiBot.Code.Tool.LogUtils
+namespace AuctionBot.Code.Tool.LogUtils
 {
     public enum LogLevel
     {

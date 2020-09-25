@@ -1,12 +1,10 @@
 using System.Reflection;
-using System.Runtime.CompilerServices;
+using System.Resources;
 using System.Runtime.InteropServices;
 
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("SuiseiBot")]
-[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SuiseiBot")]
@@ -19,10 +17,7 @@ using System.Runtime.InteropServices;
 //请将此类型的 ComVisible 特性设置为 true。
 [assembly: ComVisible(false)]
 
-// 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("b20b6fcd-2817-49b3-9b07-689649c560d2")]
-
-// 程序集的版本信息由下列四个值组成: 
+// 程序集的版本信息由下列四个值组成:
 //
 //      主版本
 //      次版本
@@ -34,3 +29,7 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.2.2.0923")]
 [assembly: AssemblyFileVersion("0.2.2.0923")]
+[assembly: AssemblyTitle("AuctionBot.Code")]
+[assembly: AssemblyDescription("A silly auctionBot")]
+[assembly: Guid("A39EE633-0D8A-A2C0-0DF0-9A90AC84093B")]
+[assembly: NeutralResourcesLanguageAttribute("")]

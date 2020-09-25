@@ -1,13 +1,14 @@
 using System;
 using System.Net;
 using System.Threading;
-using SuiseiBot.Code.Tool.LogUtils;
+using AuctionBot.Code.Tool.LogUtils;
 
-namespace SuiseiBot.Code.Network
+namespace AuctionBot.Code.Network
 {
-    class DownloadFileUtils
+    internal class DownloadFileUtils
     {
         #region 网络文件IO
+
         /// <summary>
         /// 从网络URL下载文件保存到本地
         /// </summary>
@@ -34,6 +35,7 @@ namespace SuiseiBot.Code.Network
                 throw;
             }
         }
-        #endregion
+
+        #endregion 网络文件IO
     }
 }

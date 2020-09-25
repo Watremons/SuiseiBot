@@ -1,7 +1,7 @@
+using AuctionBot.Code.Resource.TypeEnum.CmdType;
 using System.Collections.Generic;
-using SuiseiBot.Code.Resource.TypeEnum.CmdType;
 
-namespace SuiseiBot.Code.Resource.CommandHelp
+namespace AuctionBot.Code.Resource.CommandHelp
 {
     /// <summary>
     /// 大佬快教教我这个指令怎么用.jpg

@@ -1,12 +1,13 @@
+using SqlSugar;
 using System;
 using System.Reflection;
-using SqlSugar;
 
-namespace SuiseiBot.Code.SqliteTool
+namespace AuctionBot.Code.SqliteTool
 {
     internal class SugarTableUtils : Attribute
     {
         #region SugarTable辅助方法
+
         /// <summary>
         /// 获取表名
         /// </summary>
@@ -18,6 +19,7 @@ namespace SuiseiBot.Code.SqliteTool
                     new SugarTable(typeof(TableClass).Name))
                 .TableName;
         }
-        #endregion
+
+        #endregion SugarTable辅助方法
     }
 }

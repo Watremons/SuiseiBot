@@ -1,30 +1,31 @@
 using Native.Sdk.Cqp.EventArgs;
 using Native.Sdk.Cqp.Model;
-using SuiseiBot.Code.DatabaseUtils;
-using SuiseiBot.Code.DatabaseUtils.Helpers;
-using SuiseiBot.Code.Resource.TypeEnum.CmdType;
-using SuiseiBot.Code.Tool.LogUtils;
 
 namespace SuiseiBot.Code.ChatHandle
 {
     internal class SuiseiHanlde
     {
         #region 属性
+
         public object Sender { private set; get; }
         public Group QQGroup { private set; get; }
         public CQGroupMessageEventArgs SuiseiEventArgs { private set; get; }
-        #endregion
+
+        #endregion 属性
 
         #region 构造函数
+
         public SuiseiHanlde(object sender, CQGroupMessageEventArgs e)
         {
             this.SuiseiEventArgs = e;
             this.Sender = sender;
             this.QQGroup = SuiseiEventArgs.FromGroup;
         }
-        #endregion
 
-        #region  消息响应函数
+        #endregion 构造函数
+
+        #region 消息响应函数
+
         /// <summary>
         /// 在收到消息后获取数据库数据并判断是否需要修改数据库
         /// 指令分发
@@ -36,13 +37,16 @@ namespace SuiseiBot.Code.ChatHandle
                 case WholeMatchCmdType.Suisei_SignIn:
                     SignIn();
                     break;
+
                 default:
                     break;
             }
         }
-        #endregion
+
+        #endregion 消息响应函数
 
         #region 私有方法
+
         /// <summary>
         /// 签到
         /// </summary>
@@ -63,6 +67,7 @@ namespace SuiseiBot.Code.ChatHandle
                 QQGroup.SendGroupMessage("奇怪的好感度增加了！\n当前好感度为：", userData.FavorRate);
             }
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SuiseiBot.Code.Resource.CommandHelp {
+namespace AuctionBot.Code.Resource.CommandHelp {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace SuiseiBot.Code.Resource.CommandHelp {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SuiseiBot.Code.Resource.CommandHelp.GuildCmdHelp", typeof(GuildCmdHelp).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AuctionBot.Code.Resource.CommandHelp.GuildCmdHelp", typeof(GuildCmdHelp).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

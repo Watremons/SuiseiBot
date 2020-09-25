@@ -1,20 +1,23 @@
-using System;
-using System.Collections.Generic;
 using Native.Sdk.Cqp.EventArgs;
 using SqlSugar;
-using SuiseiBot.Code.SqliteTool;
-using SuiseiBot.Code.Tool.LogUtils;
+using System;
+using System.Collections.Generic;
+using AuctionBot.Code.SqliteTool;
+using AuctionBot.Code.Tool.LogUtils;
 
-namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
+namespace AuctionBot.Code.DatabaseUtils.Helpers.PCRDBHelper
 {
     internal class GuildDBHelper
     {
         #region 属性
+
         protected CQGroupMessageEventArgs GuildEventArgs { set; get; }
-        protected string                  DBPath         { get; set; }
-        #endregion
+        protected string DBPath { get; set; }
+
+        #endregion 属性
 
         #region 通用查询函数
+
         /// <summary>
         /// 检查公会是否存在
         /// </summary>
@@ -34,7 +37,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return -1;
             }
         }
@@ -53,7 +56,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             try
             {
                 using SqlSugarClient dbClient = SugarUtils.CreateSqlSugarClient(DBPath);
-                var                  data     = dbClient.Queryable<GuildInfo>().Where(i => i.Gid == groupid);
+                var data = dbClient.Queryable<GuildInfo>().Where(i => i.Gid == groupid);
                 if (data.Any())
                 {
                     return data.First().GuildName;
@@ -65,7 +68,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return null;
             }
         }
@@ -87,7 +90,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return -1;
             }
         }
@@ -112,10 +115,11 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return -1;
             }
         }
+
         /// <summary>
         /// 获取成员信息
         /// </summary>
@@ -135,7 +139,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return null;
             }
         }
@@ -163,6 +167,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
                 return null;
             }
         }
+
         /// <summary>
         /// 获取公会信息
         /// </summary>
@@ -181,10 +186,11 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return null;
             }
         }
-        #endregion
+
+        #endregion 通用查询函数
     }
 }

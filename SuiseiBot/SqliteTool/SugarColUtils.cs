@@ -1,12 +1,13 @@
+using SqlSugar;
 using System;
 using System.Reflection;
-using SqlSugar;
 
-namespace SuiseiBot.Code.SqliteTool
+namespace AuctionBot.Code.SqliteTool
 {
     internal class SugarColUtils : Attribute
     {
         #region SugarColumn辅助方法
+
         /// <summary>
         /// 判断字段类型
         /// </summary>
@@ -18,21 +19,21 @@ namespace SuiseiBot.Code.SqliteTool
             if (columnConfig?.ColumnDataType == null)
             {
                 //整数类型
-                if (property.PropertyType == typeof(sbyte)  ||
-                    property.PropertyType == typeof(byte)   ||
-                    property.PropertyType == typeof(short)  ||
+                if (property.PropertyType == typeof(sbyte) ||
+                    property.PropertyType == typeof(byte) ||
+                    property.PropertyType == typeof(short) ||
                     property.PropertyType == typeof(ushort) ||
-                    property.PropertyType == typeof(int)    ||
-                    property.PropertyType == typeof(uint)   ||
-                    property.PropertyType == typeof(long)   ||
-                    property.PropertyType == typeof(ulong)  ||
-                    property.PropertyType == typeof(char)   ||
+                    property.PropertyType == typeof(int) ||
+                    property.PropertyType == typeof(uint) ||
+                    property.PropertyType == typeof(long) ||
+                    property.PropertyType == typeof(ulong) ||
+                    property.PropertyType == typeof(char) ||
                     property.PropertyType == typeof(bool))
                     return "INTEGER";
 
                 //浮点数类型
                 if (property.PropertyType == typeof(double) ||
-                    property.PropertyType == typeof(float)  ||
+                    property.PropertyType == typeof(float) ||
                     property.PropertyType == typeof(decimal))
                     return "REAL";
 
@@ -93,6 +94,7 @@ namespace SuiseiBot.Code.SqliteTool
             if (columnConfig == null) return false;
             else return columnConfig.IsPrimaryKey;
         }
-        #endregion
+
+        #endregion SugarColumn辅助方法
     }
 }

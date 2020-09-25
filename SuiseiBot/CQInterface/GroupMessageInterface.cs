@@ -1,12 +1,6 @@
-using System;
 using Native.Sdk.Cqp.EventArgs;
 using SuiseiBot.Code.ChatHandle;
-using SuiseiBot.Code.ChatHandle.AuctionHandle;
-using SuiseiBot.Code.ChatHandle.PCRHandle;
-using SuiseiBot.Code.IO.Config;
-using SuiseiBot.Code.Resource.Commands;
-using SuiseiBot.Code.Resource.TypeEnum.CmdType;
-using SuiseiBot.Code.Tool.LogUtils;
+using System;
 
 namespace SuiseiBot.Code.CQInterface
 {
@@ -21,7 +15,7 @@ namespace SuiseiBot.Code.CQInterface
         {
             try
             {
-                GMsgAction(sender,eventArgs);
+                GMsgAction(sender, eventArgs);
             }
             catch (Exception e)
             {
@@ -35,7 +29,7 @@ namespace SuiseiBot.Code.CQInterface
             //与MiraiLog信息重复暂不显示
             //ConsoleLog.Info($"收到信息[群:{eventArgs.FromGroup.Id}]",$"{(eventArgs.Message.Text).Replace("\r\n", "\\r\\n")}");
             //读取配置文件
-            Config config = new Config(eventArgs.CQApi.GetLoginQQ().Id,false);
+            Config config = new Config(eventArgs.CQApi.GetLoginQQ().Id, false);
             //Module moduleEnable = config.LoadedConfig.ModuleSwitch;
 
             //以#开头的消息全部交给PCR处理
@@ -55,7 +49,7 @@ namespace SuiseiBot.Code.CQInterface
             }
 
             //以*开头的消息全部交给Auction模块处理
-            if(eventArgs.Message.Text.Trim().StartsWith("*") && //检查指令开头
+            if (eventArgs.Message.Text.Trim().StartsWith("*") && //检查指令开头
               config.LoadConfig()                              //加载配置文件
             )
             {
@@ -70,14 +64,13 @@ namespace SuiseiBot.Code.CQInterface
                 return;
             }
 
-
             //全字指令匹配
             WholeMatchCmd.KeyWords.TryGetValue(eventArgs.Message, out WholeMatchCmdType cmdType); //查找关键字
             if (cmdType != 0)
             {
                 ConsoleLog.Info("触发关键词", $"消息类型={cmdType}");
                 //加载配置文件
-                if(!config.LoadConfig()) return;
+                if (!config.LoadConfig()) return;
             }
             switch (cmdType)
             {
@@ -116,7 +109,7 @@ namespace SuiseiBot.Code.CQInterface
                     return;
                 //输入debug
                 case WholeMatchCmdType.Debug:
-                    if(!config.LoadedConfig.ModuleSwitch.Debug)
+                    if (!config.LoadedConfig.ModuleSwitch.Debug)
                     {
                         eventArgs.FromGroup.SendGroupMessage("此模块未启用");
                         return;
@@ -145,9 +138,11 @@ namespace SuiseiBot.Code.CQInterface
                     GuildRankHandle pcrTools = new GuildRankHandle(sender, eventArgs);
                     pcrTools.GetChat(keywordType);
                     return;
+
                 case KeywordCmdType.At_Bot:
-                    ConsoleLog.Info("机器人事件","机器人被AT");
+                    ConsoleLog.Info("机器人事件", "机器人被AT");
                     break;
+
                 case KeywordCmdType.Cheru_Encode:
                 case KeywordCmdType.Cheru_Decode:
                     if (!config.LoadedConfig.ModuleSwitch.Cheru)
@@ -155,11 +150,12 @@ namespace SuiseiBot.Code.CQInterface
                         eventArgs.FromGroup.SendGroupMessage("此模块未启用");
                         return;
                     }
-                    CheruHandle cheru = new CheruHandle(sender,eventArgs);
+                    CheruHandle cheru = new CheruHandle(sender, eventArgs);
                     cheru.GetChat(keywordType);
                     break;
+
                 case KeywordCmdType.Debug_Echo:
-                    if(!config.LoadedConfig.ModuleSwitch.Debug)
+                    if (!config.LoadedConfig.ModuleSwitch.Debug)
                     {
                         eventArgs.FromGroup.SendGroupMessage("此模块未启用");
                         return;

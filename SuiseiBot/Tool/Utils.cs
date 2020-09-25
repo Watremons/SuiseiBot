@@ -1,14 +1,13 @@
 using Native.Sdk.Cqp;
 using Native.Sdk.Cqp.Enum;
 using Native.Sdk.Cqp.Model;
-using SuiseiBot.Code.Resource.TypeEnum;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
+using AuctionBot.Code.Resource.TypeEnum;
 using Group = Native.Sdk.Cqp.Model.Group;
 
-namespace SuiseiBot.Code.Tool
+namespace AuctionBot.Code.Tool
 {
     internal static class Utils
     {
@@ -26,8 +25,8 @@ namespace SuiseiBot.Code.Tool
             status = 0;
             foreach (CQCode code in codeList) //检查每一个AT
             {
-                if (code.Function.Equals(CQFunction.At)            &&
-                    code.Items.ContainsKey("qq")                   &&
+                if (code.Function.Equals(CQFunction.At) &&
+                    code.Items.ContainsKey("qq") &&
                     long.TryParse(code.Items["qq"], out long qqid) &&
                     qqid > QQ.MinValue)
                 {
@@ -43,7 +42,7 @@ namespace SuiseiBot.Code.Tool
             return ret;
         }
 
-        #endregion
+        #endregion CQCode处理
 
         #region 时间戳转换工具
 
@@ -73,25 +72,25 @@ namespace SuiseiBot.Code.Tool
         /// 获取当前时间戳
         /// 时间戳单位(毫秒)
         /// </summary>
-        public static long GetNowTimeStampLong() =>(long) (DateTime.Now - new DateTime(1970, 1, 1, 8, 0, 0, 0)).TotalMilliseconds;
+        public static long GetNowTimeStampLong() => (long)(DateTime.Now - new DateTime(1970, 1, 1, 8, 0, 0, 0)).TotalMilliseconds;
 
         /// <summary>
         /// 获取今天零点的时间戳
         /// 时间戳单位(毫秒)
         /// </summary>
-        public static long GetTodayStampLong() =>(long) (DateTime.Today - new DateTime(1970, 1, 1, 8, 0, 0, 0)).TotalMilliseconds;
+        public static long GetTodayStampLong() => (long)(DateTime.Today - new DateTime(1970, 1, 1, 8, 0, 0, 0)).TotalMilliseconds;
 
         /// <summary>
         /// 获取当前时间戳
         /// 时间戳单位(秒)
         /// </summary>
-        public static long GetNowTimeStamp() =>(long) (DateTime.Now - new DateTime(1970, 1, 1, 8, 0, 0, 0)).TotalSeconds;
+        public static long GetNowTimeStamp() => (long)(DateTime.Now - new DateTime(1970, 1, 1, 8, 0, 0, 0)).TotalSeconds;
 
         /// <summary>
         /// 获取今天零点的时间戳
         /// 时间戳单位(秒)
         /// </summary>
-        public static long GetTodayStamp() =>(long) (DateTime.Today - new DateTime(1970, 1, 1, 8, 0, 0, 0)).TotalSeconds;
+        public static long GetTodayStamp() => (long)(DateTime.Today - new DateTime(1970, 1, 1, 8, 0, 0, 0)).TotalSeconds;
 
         /// <summary>
         /// 获取今天5点的时间戳
@@ -101,13 +100,12 @@ namespace SuiseiBot.Code.Tool
         {
             if (DateTime.Now > DateTime.Today.Add(new TimeSpan(5, 0, 0)))
             {
-                return (long)( DateTime.Today - new DateTime(1970, 1, 1, 8, 0, 0, 0)).Add(new TimeSpan(5, 0, 0)).TotalSeconds;
+                return (long)(DateTime.Today - new DateTime(1970, 1, 1, 8, 0, 0, 0)).Add(new TimeSpan(5, 0, 0)).TotalSeconds;
             }
             else
             {
-                return (long)( DateTime.Today.AddDays(-1) - new DateTime(1970, 1, 1, 8, 0, 0, 0)).Add(new TimeSpan(5, 0, 0)).TotalSeconds;
+                return (long)(DateTime.Today.AddDays(-1) - new DateTime(1970, 1, 1, 8, 0, 0, 0)).Add(new TimeSpan(5, 0, 0)).TotalSeconds;
             }
-            
         }
 
         /// <summary>
@@ -128,18 +126,17 @@ namespace SuiseiBot.Code.Tool
         /// 将DateTime转换为13位long时间戳
         /// 时间戳单位(秒)
         /// </summary>
-        public static long DateTimeToTimeStampLong(DateTime dateTime) =>(long)
+        public static long DateTimeToTimeStampLong(DateTime dateTime) => (long)
             (dateTime - (new DateTime(1970, 1, 1, 8, 0, 0, 0))).TotalMilliseconds;
-
 
         /// <summary>
         /// 将DateTime转换为11位int时间戳
         /// 时间戳单位(秒)
         /// </summary>
-        public static long DateTimeToTimeStamp(DateTime dateTime) =>(long)
+        public static long DateTimeToTimeStamp(DateTime dateTime) => (long)
             (dateTime - (new DateTime(1970, 1, 1, 8, 0, 0, 0))).TotalSeconds;
 
-        #endregion
+        #endregion 时间戳转换工具
 
         #region 群成员处理
 
@@ -151,9 +148,10 @@ namespace SuiseiBot.Code.Tool
             return input.Card == "" ? input.Nick : input.Card;
         }
 
-        #endregion
+        #endregion 群成员处理
 
         #region 字符串处理
+
         /// <summary>
         /// 获取字符串在QQ上显示的长度（用于PadQQ函数）
         /// </summary>
@@ -214,6 +212,6 @@ namespace SuiseiBot.Code.Tool
             }
         }
 
-        #endregion
+        #endregion 字符串处理
     }
 }

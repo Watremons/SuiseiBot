@@ -70,9 +70,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SuiseiBot\SuiseiBot.Code.csproj">
+    <ProjectReference Include="..\SuiseiBot\AuctionBot.Code.csproj">
       <Project>{b20b6fcd-2817-49b3-9b07-689649c560d2}</Project>
-      <Name>SuiseiBot.Code</Name>
+      <Name>AuctionBot.Code</Name>
     </ProjectReference>
     <ProjectReference Include="..\Native.Sdk\Native.Sdk.csproj">
       <Project>{d7a958b3-79d9-49f8-8bb4-9619bab6ecba}</Project>

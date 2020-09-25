@@ -1,22 +1,25 @@
+using AuctionBot.Code.IO.Config.ConfigClass;
+using AuctionBot.Code.IO.Config.Res;
+using AuctionBot.Code.Tool.LogUtils;
+using SharpYaml.Serialization;
 using System;
 using System.IO;
 using System.Text;
 using System.Threading;
-using SharpYaml.Serialization;
-using SuiseiBot.Code.IO.Config.ConfigClass;
-using SuiseiBot.Code.IO.Config.Res;
-using SuiseiBot.Code.Tool.LogUtils;
 
-namespace SuiseiBot.Code.IO.Config
+namespace AuctionBot.Code.IO.Config
 {
     internal class Config
     {
         #region 属性
+
         private string Path { set; get; }
         public MainConfig LoadedConfig { private set; get; }
-        #endregion
+
+        #endregion 属性
 
         #region 构造函数
+
         /// <summary>
         /// ConfigIO构造函数，默认构造时加载本地配置文件
         /// </summary>
@@ -28,9 +31,11 @@ namespace SuiseiBot.Code.IO.Config
             //执行一次加载
             if (initConfig) ConfigFileInit();
         }
-        #endregion
+
+        #endregion 构造函数
 
         #region 公有方法
+
         /// <summary>
         /// 加载配置文件
         /// </summary>
@@ -38,8 +43,8 @@ namespace SuiseiBot.Code.IO.Config
         {
             try
             {
-                Serializer       serializer = new Serializer();
-                using TextReader reader     = File.OpenText(Path);
+                Serializer serializer = new Serializer();
+                using TextReader reader = File.OpenText(Path);
                 LoadedConfig = serializer.Deserialize<MainConfig>(reader);
                 return true;
             }
@@ -49,9 +54,11 @@ namespace SuiseiBot.Code.IO.Config
                 return false;
             }
         }
-        #endregion
+
+        #endregion 公有方法
 
         #region 私有方法
+
         /// <summary>
         /// 初始化配置文件并返回当前配置文件内容
         /// </summary>
@@ -68,7 +75,7 @@ namespace SuiseiBot.Code.IO.Config
                 //没读取到文件时创建新的文件
                 ConsoleLog.Error("ConfigIO", "未找到配置文件");
                 ConsoleLog.Warning("ConfigIO", "创建新的配置文件");
-                string           initConfigText = Encoding.UTF8.GetString(InitRes.initconfig);
+                string initConfigText = Encoding.UTF8.GetString(InitRes.initconfig);
                 using (TextWriter writer = File.CreateText(Path))
                 {
                     writer.Write(initConfigText);
@@ -84,6 +91,7 @@ namespace SuiseiBot.Code.IO.Config
                 Environment.Exit(-1);
             }
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

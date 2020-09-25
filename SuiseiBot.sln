@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Native.Sdk", "Native.Sdk\Native.Sdk.csproj", "{D7A958B3-79D9-49F8-8BB4-9619BAB6ECBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuiseiBot.Code", "SuiseiBot\SuiseiBot.Code.csproj", "{B20B6FCD-2817-49B3-9B07-689649C560D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionBot.Code", "SuiseiBot\AuctionBot.Code.csproj", "{B20B6FCD-2817-49B3-9B07-689649C560D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuiseiBot.Export", "SuiseiBot.Export\SuiseiBot.Export.csproj", "{C03C5BB7-91D0-4894-AAF9-127090DFAD91}"
 EndProject

@@ -94,23 +94,27 @@ namespace SuiseiBot.Code
     public class Event
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public int id { get; set; }
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public int type { get; set; }
+
         /// <summary>
         /// 私聊消息处理
         /// </summary>
         public string name { get; set; }
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public string function { get; set; }
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public int priority { get; set; }
     }

@@ -1,15 +1,15 @@
+using Native.Sdk.Cqp;
 using System;
 using System.Threading;
-using Native.Sdk.Cqp;
-using SuiseiBot.Code.TimerEvent.Event;
+using AuctionBot.Code.TimerEvent.Event;
 
-namespace SuiseiBot.Code.TimerEvent
+namespace AuctionBot.Code.TimerEvent
 {
     internal class TimerInit
     {
         private static Timer subscriptionThread;
 
-        public TimerInit(CQApi cqApi,int updateSpan)
+        public TimerInit(CQApi cqApi, int updateSpan)
         {
             subscriptionThread = new Timer(SubscriptionEvent,                   //事件处理
                                            cqApi,                     //酷Q API

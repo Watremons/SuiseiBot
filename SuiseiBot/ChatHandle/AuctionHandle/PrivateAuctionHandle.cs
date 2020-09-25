@@ -1,32 +1,36 @@
-﻿using System;
-using Native.Sdk.Cqp;
+﻿using Native.Sdk.Cqp;
 using Native.Sdk.Cqp.EventArgs;
-using SuiseiBot.Code.OrderManager.AuctionManager;
-using SuiseiBot.Code.Resource.CommandHelp;
-using SuiseiBot.Code.Resource.Commands;
-using SuiseiBot.Code.Resource.TypeEnum.CmdType;
-using SuiseiBot.Code.Tool.LogUtils;
+using System;
+using AuctionBot.Code.Resource.CommandHelp;
+using AuctionBot.Code.Resource.Commands;
+using AuctionBot.Code.Resource.TypeEnum.CmdType;
+using AuctionBot.Code.Tool.LogUtils;
 
-namespace SuiseiBot.Code.ChatHandle.AuctionHandle
+namespace AuctionBot.Code.ChatHandle.AuctionHandle
 {
     internal class PrivateAuctionHandle
     {
         #region 属性
+
         public object Sender { private set; get; }
         public CQPrivateMessageEventArgs AuctionEventArgs { private set; get; }
         public string AuctionCommand { private get; set; }
         private AuctionCmdType CommandType { get; set; }
-        #endregion
+
+        #endregion 属性
 
         #region 构造函数
+
         public PrivateAuctionHandle(object sender, CQPrivateMessageEventArgs e)
         {
             this.AuctionEventArgs = e;
             this.Sender = sender;
         }
-        #endregion
+
+        #endregion 构造函数
 
         #region 消息解析函数
+
         public void GetChat() //消息接收并判断是否响应
         {
             try
@@ -62,9 +66,11 @@ namespace SuiseiBot.Code.ChatHandle.AuctionHandle
                 ConsoleLog.Error("拍卖Bot", $"指令解析发生错误\n{e}");
             }
         }
-        #endregion
+
+        #endregion 消息解析函数
 
         #region 非法指令响应
+
         /// <summary>
         /// 得到未知指令时的响应
         /// </summary>
@@ -90,9 +96,11 @@ namespace SuiseiBot.Code.ChatHandle.AuctionHandle
                                          $"\n错误：{errDescription}" +
                                          $"\n指令帮助：{GetCommandHelp(commandType)}");
         }
-        #endregion
+
+        #endregion 非法指令响应
 
         #region 辅助函数
+
         /// <summary>
         /// 获取对应指令的帮助文本
         /// </summary>
@@ -103,6 +111,7 @@ namespace SuiseiBot.Code.ChatHandle.AuctionHandle
             if (string.IsNullOrEmpty(helptext)) helptext = "该指令还在开发中，请询问机器人维护者或者开发者";
             return helptext;
         }
-        #endregion
+
+        #endregion 辅助函数
     }
 }

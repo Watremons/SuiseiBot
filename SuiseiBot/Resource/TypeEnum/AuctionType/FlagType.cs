@@ -1,4 +1,4 @@
-namespace SuiseiBot.Code.Resource.TypeEnum.AuctionType
+namespace AuctionBot.Code.Resource.TypeEnum.AuctionType
 {
     internal enum FlagType
     {
@@ -6,10 +6,12 @@ namespace SuiseiBot.Code.Resource.TypeEnum.AuctionType
         /// 未知成员
         /// </summary>
         UnknownMember = -1,
+
         /// <summary>
         /// 小组成员
         /// </summary>
         Normal = 0,
+
         /// <summary>
         /// 小组组长
         /// </summary>

@@ -1,18 +1,19 @@
-using System;
-using System.Collections.Generic;
 using Native.Sdk.Cqp.EventArgs;
 using SqlSugar;
-using SuiseiBot.Code.Resource.TypeEnum;
-using SuiseiBot.Code.Resource.TypeEnum.GuildBattleType;
-using SuiseiBot.Code.SqliteTool;
-using SuiseiBot.Code.Tool;
-using SuiseiBot.Code.Tool.LogUtils;
+using System;
+using System.Collections.Generic;
+using AuctionBot.Code.Resource.TypeEnum;
+using AuctionBot.Code.Resource.TypeEnum.GuildBattleType;
+using AuctionBot.Code.SqliteTool;
+using AuctionBot.Code.Tool;
+using AuctionBot.Code.Tool.LogUtils;
 
-namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
+namespace AuctionBot.Code.DatabaseUtils.Helpers.PCRDBHelper
 {
     internal class GuildManagerDBHelper : GuildDBHelper
     {
         #region 构造函数
+
         /// <summary>
         /// 在接受到群消息时使用
         /// </summary>
@@ -20,11 +21,13 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
         public GuildManagerDBHelper(CQGroupMessageEventArgs guildEventArgs)
         {
             this.GuildEventArgs = guildEventArgs;
-            this.DBPath         = SugarUtils.GetDBPath(guildEventArgs.CQApi.GetLoginQQ().Id.ToString());
+            this.DBPath = SugarUtils.GetDBPath(guildEventArgs.CQApi.GetLoginQQ().Id.ToString());
         }
-        #endregion
+
+        #endregion 构造函数
 
         #region 指令
+
         /// <summary>
         /// 移除所有成员
         /// </summary>
@@ -37,7 +40,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
         public int EmptyMember(long groupid)
         {
             using SqlSugarClient dbClient = SugarUtils.CreateSqlSugarClient(DBPath);
-            var                  data     = dbClient.Queryable<MemberInfo>().Where(i => i.Gid == groupid);
+            var data = dbClient.Queryable<MemberInfo>().Where(i => i.Gid == groupid);
             if (data.Any())
             {
                 if (dbClient.Deleteable<MemberInfo>().Where(i => i.Gid == groupid).ExecuteCommandHasChange())
@@ -67,7 +70,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
         /// </returns>
         public int LeaveGuild(long qqid, long groupid)
         {
-            int                  retCode  = -1;
+            int retCode = -1;
             using SqlSugarClient dbClient = SugarUtils.CreateSqlSugarClient(DBPath);
             if (dbClient.Queryable<MemberInfo>().Where(i => i.Uid == qqid && i.Gid == groupid).Any())
             {
@@ -110,7 +113,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
         {
             try
             {
-                int                  retCode  = -1;
+                int retCode = -1;
                 using SqlSugarClient dbClient = SugarUtils.CreateSqlSugarClient(DBPath);
                 if (dbClient.Queryable<MemberInfo>().Where(i => i.Uid == qqid && i.Gid == groupid).Any())
                 {
@@ -144,7 +147,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database", ConsoleLog.ErrorLogBuilder(e));
                 return -1;
             }
         }
@@ -164,8 +167,8 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
         {
             try
             {
-                int                  retCode;
-                long                 initHP   = GetInitBossHP(gArea);
+                int retCode;
+                long initHP = GetInitBossHP(gArea);
                 using SqlSugarClient dbClient = SugarUtils.CreateSqlSugarClient(DBPath);
                 //更新信息时不需要更新公会战信息
                 if (dbClient.Queryable<GuildInfo>().Where(i => i.Gid == gId).Any())
@@ -173,12 +176,12 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
                     var data = new GuildInfo()
                     {
                         GuildName = gName,
-                        ServerId  = gArea,
-                        Gid       = gId
+                        ServerId = gArea,
+                        Gid = gId
                     };
                     retCode = dbClient.Updateable(data)
                                       .UpdateColumns(guildInfo =>
-                                                         new {guildInfo.GuildName, guildInfo.ServerId, guildInfo.Gid})
+                                                         new { guildInfo.GuildName, guildInfo.ServerId, guildInfo.Gid })
                                       .Where(i => i.Gid == gId)
                                       .ExecuteCommandHasChange()
                         ? 1
@@ -190,14 +193,14 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
                     var bossStatusData = new GuildInfo
                     {
                         BossPhase = 1,
-                        Gid       = gId,
-                        HP        = initHP,
-                        InBattle  = false,
-                        Order     = 1,
-                        Round     = 1,
-                        TotalHP   = initHP,
+                        Gid = gId,
+                        HP = initHP,
+                        InBattle = false,
+                        Order = 1,
+                        Round = 1,
+                        TotalHP = initHP,
                         GuildName = gName,
-                        ServerId  = gArea
+                        ServerId = gArea
                     };
                     retCode = dbClient.Insertable(bossStatusData).ExecuteCommand() > 0 ? 0 : -1;
                 }
@@ -206,7 +209,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database", ConsoleLog.ErrorLogBuilder(e));
                 return -1;
             }
         }
@@ -229,18 +232,20 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
                     deletMemberInfo = dbClient.Deleteable<MemberInfo>().Where(member => member.Gid == gid)
                                               .ExecuteCommandHasChange();
                 }
-                
+
                 return deletMemberInfo && deletGuildInfo;
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database", ConsoleLog.ErrorLogBuilder(e));
                 return false;
             }
         }
-        #endregion
+
+        #endregion 指令
 
         #region 私有方法
+
         /// <summary>
         /// 获取对应区服的boss初始化HP
         /// </summary>
@@ -250,11 +255,12 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             using SqlSugarClient dbClient = SugarUtils.CreateSqlSugarClient(DBPath);
             return dbClient.Queryable<GuildBattleBoss>()
                            .Where(i => i.ServerId == server
-                                    && i.Phase    == 1
-                                    && i.Order    == 1)
-                           .Select(i=>i.HP)
+                                    && i.Phase == 1
+                                    && i.Order == 1)
+                           .Select(i => i.HP)
                            .First();
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

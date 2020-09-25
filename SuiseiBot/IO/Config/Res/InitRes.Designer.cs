@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SuiseiBot.Code.IO.Config.Res {
+namespace AuctionBot.Code.IO.Config.Res {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace SuiseiBot.Code.IO.Config.Res {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SuiseiBot.Code.IO.Config.Res.InitRes", typeof(InitRes).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AuctionBot.Code.IO.Config.Res.InitRes", typeof(InitRes).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

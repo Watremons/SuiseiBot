@@ -1,33 +1,39 @@
+using Native.Sdk.Cqp.EventArgs;
+using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Native.Sdk.Cqp.EventArgs;
-using SqlSugar;
-using SuiseiBot.Code.Resource.TypeEnum;
-using SuiseiBot.Code.Resource.TypeEnum.GuildBattleType;
-using SuiseiBot.Code.SqliteTool;
-using SuiseiBot.Code.Tool;
-using SuiseiBot.Code.Tool.LogUtils;
+using AuctionBot.Code.Resource.TypeEnum;
+using AuctionBot.Code.Resource.TypeEnum.GuildBattleType;
+using AuctionBot.Code.SqliteTool;
+using AuctionBot.Code.Tool;
+using AuctionBot.Code.Tool.LogUtils;
+
 // ReSharper disable AccessToModifiedClosure
 
-namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
+namespace AuctionBot.Code.DatabaseUtils.Helpers.PCRDBHelper
 {
     internal class GuildBattleMgrDBHelper : GuildDBHelper
     {
         #region 属性
+
         private string BattleTableName { get; set; }
-        #endregion
+
+        #endregion 属性
 
         #region 构造函数
+
         public GuildBattleMgrDBHelper(CQGroupMessageEventArgs eventArgs)
         {
-            GuildEventArgs  = eventArgs;
-            DBPath          = SugarUtils.GetDBPath(eventArgs.CQApi.GetLoginQQ().Id.ToString());
+            GuildEventArgs = eventArgs;
+            DBPath = SugarUtils.GetDBPath(eventArgs.CQApi.GetLoginQQ().Id.ToString());
             BattleTableName = $"{SugarTableUtils.GetTableName<GuildBattle>()}_{GuildEventArgs.FromGroup.Id}";
         }
-        #endregion
+
+        #endregion 构造函数
 
         #region 公有方法
+
         /// <summary>
         /// 获取今天的出刀列表
         /// </summary>
@@ -78,7 +84,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
                 using SqlSugarClient dbClient = SugarUtils.CreateSqlSugarClient(DBPath);
                 return dbClient.Queryable<GuildBattle>()
                                .AS(BattleTableName)
-                               .Where(attack => attack.Time   > Utils.GetUpdateStamp() &&
+                               .Where(attack => attack.Time > Utils.GetUpdateStamp() &&
                                                 attack.Attack != AttackType.Compensate &&
                                                 attack.Attack != AttackType.CompensateKill)
                                .GroupBy(member => member.Uid)
@@ -97,7 +103,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
                 return null;
             }
         }
-        
+
         /// <summary>
         /// 检查是否已进入会战
         /// </summary>
@@ -115,7 +121,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return -1;
             }
         }
@@ -142,27 +148,27 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
                 {
                     SugarUtils.CreateTable<GuildBattle>(dbClient, BattleTableName);
                     ConsoleLog.Info("会战管理数据库", "开始新的一期会战统计");
-                    dbClient.Updateable(new GuildInfo {InBattle = true})
+                    dbClient.Updateable(new GuildInfo { InBattle = true })
                                    .Where(guild => guild.Gid == GuildEventArgs.FromGroup.Id)
-                                   .UpdateColumns(i => new {i.InBattle})
+                                   .UpdateColumns(i => new { i.InBattle })
                                    .ExecuteCommandHasChange();
                     //获取初始周目boss的信息
                     GuildBattleBoss initBossData = dbClient.Queryable<GuildBattleBoss>()
                                                            .Where(i => i.ServerId == guildInfo.ServerId
-                                                                    && i.Phase    == 1
-                                                                    && i.Order    == 1)
+                                                                    && i.Phase == 1
+                                                                    && i.Order == 1)
                                                            .First();
                     GuildInfo updateBossData =
                         new GuildInfo()
                         {
                             BossPhase = initBossData.Phase,
-                            Order     = 1,
-                            Round     = 1,
-                            HP        = initBossData.HP,
-                            TotalHP   = initBossData.HP
+                            Order = 1,
+                            Round = 1,
+                            HP = initBossData.HP,
+                            TotalHP = initBossData.HP
                         };
                     return dbClient.Updateable(updateBossData)
-                                   .UpdateColumns(i => new {i.Order, i.HP, i.BossPhase, i.Round, i.TotalHP})
+                                   .UpdateColumns(i => new { i.Order, i.HP, i.BossPhase, i.Round, i.TotalHP })
                                    .Where(i => i.Gid == GuildEventArgs.FromGroup.Id)
                                    .ExecuteCommandHasChange()
                         ? 1
@@ -171,7 +177,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return -1;
             }
         }
@@ -193,9 +199,9 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
                 {
                     ConsoleLog.Warning("会战管理数据库", "结束一期会战统计删除旧表");
                     SugarUtils.DeletTable<GuildBattle>(dbClient, BattleTableName);
-                    return dbClient.Updateable(new GuildInfo {InBattle = false})
+                    return dbClient.Updateable(new GuildInfo { InBattle = false })
                                    .Where(guild => guild.Gid == GuildEventArgs.FromGroup.Id)
-                                   .UpdateColumns(i => new {i.InBattle})
+                                   .UpdateColumns(i => new { i.InBattle })
                                    .ExecuteCommandHasChange()
                         ? 1
                         : -1;
@@ -208,7 +214,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return -1;
             }
         }
@@ -234,14 +240,14 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
                             .AS(BattleTableName)
                             .Where(member => member.Uid == uid)
                             .OrderBy(attack => attack.Aid, OrderByType.Desc)
-                            .Select(attack => new {lastType = attack.Attack, attack.Aid})
+                            .Select(attack => new { lastType = attack.Attack, attack.Aid })
                             .First();
                 attackType = lastAttack?.lastType ?? AttackType.Illeage;
                 return lastAttack?.Aid ?? 0;
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 attackType = AttackType.Illeage;
                 return -1;
             }
@@ -266,7 +272,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return null;
             }
         }
@@ -291,7 +297,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return false;
             }
         }
@@ -320,7 +326,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return -1;
             }
         }
@@ -336,7 +342,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
         /// <para>本次出刀刀号</para>
         /// <para><see langword="-1"/> 数据库错误</para>
         /// </returns>
-        public int NewAttack(long uid,GuildInfo guildInfo,long dmg,AttackType attackType)
+        public int NewAttack(long uid, GuildInfo guildInfo, long dmg, AttackType attackType)
         {
             try
             {
@@ -344,10 +350,10 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
                 //插入一刀数据
                 var insertData = new GuildBattle()
                 {
-                    Uid    = uid,
-                    Time   = Utils.GetNowTimeStamp(),
-                    Order  = guildInfo.Order,
-                    Round  = guildInfo.Round,
+                    Uid = uid,
+                    Time = Utils.GetNowTimeStamp(),
+                    Order = guildInfo.Order,
+                    Round = guildInfo.Round,
                     Damage = dmg,
                     Attack = attackType
                 };
@@ -357,7 +363,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return -1;
             }
         }
@@ -375,16 +381,16 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
         {
             try
             {
-                if(curBossHP>guildInfo.TotalHP) throw new ArgumentOutOfRangeException(nameof(curBossHP));
+                if (curBossHP > guildInfo.TotalHP) throw new ArgumentOutOfRangeException(nameof(curBossHP));
                 using SqlSugarClient dbClient = SugarUtils.CreateSqlSugarClient(DBPath);
                 guildInfo.HP = curBossHP;
                 return dbClient.Updateable(guildInfo)
-                               .UpdateColumns(i => new {i.HP})
+                               .UpdateColumns(i => new { i.HP })
                                .ExecuteCommandHasChange();
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return false;
             }
         }
@@ -408,12 +414,12 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
                 int phase = GetRoundPhase(round, dbClient);
                 return dbClient.Queryable<GuildBattleBoss>()
                                .Where(boss => boss.ServerId == server && boss.Order == bossOrder &&
-                                              boss.Phase    == phase)
+                                              boss.Phase == phase)
                                .First();
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return null;
             }
         }
@@ -433,23 +439,27 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
 
                 //更新数据
                 return dbClient.Updateable(new GuildInfo
-                               {
-                                   HP        = hp,
-                                   TotalHP   = totalHP,
-                                   Round     = round,
-                                   Order     = bossOrder,
-                                   BossPhase = phase,
-                               })
+                {
+                    HP = hp,
+                    TotalHP = totalHP,
+                    Round = round,
+                    Order = bossOrder,
+                    BossPhase = phase,
+                })
                                .Where(guild => guild.Gid == GuildEventArgs.FromGroup.Id)
                                .UpdateColumns(info => new
                                {
-                                   info.HP, info.TotalHP, info.Round, info.Order, info.BossPhase
+                                   info.HP,
+                                   info.TotalHP,
+                                   info.Round,
+                                   info.Order,
+                                   info.BossPhase
                                })
                                .ExecuteCommandHasChange();
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return false;
             }
         }
@@ -470,24 +480,24 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
                 //获取下一个boss的信息
                 GuildBattleBoss nextBossData = dbClient.Queryable<GuildBattleBoss>()
                                                        .Where(i => i.ServerId == guildInfo.ServerId
-                                                                && i.Phase    == guildInfo.BossPhase
-                                                                && i.Order    == guildInfo.Order + 1)
+                                                                && i.Phase == guildInfo.BossPhase
+                                                                && i.Order == guildInfo.Order + 1)
                                                        .First();
                 GuildInfo updateBossData =
                     new GuildInfo()
                     {
-                        Order   = guildInfo.Order + 1,
-                        HP      = nextBossData.HP,
+                        Order = guildInfo.Order + 1,
+                        HP = nextBossData.HP,
                         TotalHP = nextBossData.HP
                     };
                 return dbClient.Updateable(updateBossData)
-                               .UpdateColumns(i => new {i.Order, i.HP, i.TotalHP})
+                               .UpdateColumns(i => new { i.Order, i.HP, i.TotalHP })
                                .Where(i => i.Gid == GuildEventArgs.FromGroup.Id)
                                .ExecuteCommandHasChange();
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return false;
             }
         }
@@ -510,26 +520,26 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
                 //获取下一个周目boss的信息
                 GuildBattleBoss nextBossData = dbClient.Queryable<GuildBattleBoss>()
                                                        .Where(i => i.ServerId == guildInfo.ServerId
-                                                                && i.Phase    == nextPhase
-                                                                && i.Order    == 1)
+                                                                && i.Phase == nextPhase
+                                                                && i.Order == 1)
                                                        .First();
                 GuildInfo updateBossData =
                     new GuildInfo()
                     {
                         BossPhase = nextBossData.Phase,
-                        Order     = 1,
-                        Round     = guildInfo.Round + 1,
-                        HP        = nextBossData.HP,
-                        TotalHP   = nextBossData.HP
+                        Order = 1,
+                        Round = guildInfo.Round + 1,
+                        HP = nextBossData.HP,
+                        TotalHP = nextBossData.HP
                     };
                 return dbClient.Updateable(updateBossData)
-                               .UpdateColumns(i => new {i.Order, i.HP, i.BossPhase, i.Round, i.TotalHP})
+                               .UpdateColumns(i => new { i.Order, i.HP, i.BossPhase, i.Round, i.TotalHP })
                                .Where(i => i.Gid == GuildEventArgs.FromGroup.Id)
                                .ExecuteCommandHasChange();
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return false;
             }
         }
@@ -546,16 +556,16 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             try
             {
                 using SqlSugarClient dbClient = SugarUtils.CreateSqlSugarClient(DBPath);
-                dbClient.Updateable(new MemberInfo {Flag = FlagType.IDLE, Info = null})
+                dbClient.Updateable(new MemberInfo { Flag = FlagType.IDLE, Info = null })
                         .Where(i => (i.Flag == FlagType.OnTree || i.Flag == FlagType.EnGage) &&
                                     i.Gid == GuildEventArgs.FromGroup.Id)
-                        .UpdateColumns(i => new {i.Flag, i.Info})
+                        .UpdateColumns(i => new { i.Flag, i.Info })
                         .ExecuteCommand();
                 return true;
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return false;
             }
         }
@@ -576,7 +586,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return null;
             }
         }
@@ -604,13 +614,13 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
                     Time = Utils.GetNowTimeStamp(),
                 };
                 return dbClient.Updateable(memberInfo)
-                               .UpdateColumns(i => new{i.Flag,i.Info,i.Time})
-                               .Where(i=>i.Gid == GuildEventArgs.FromGroup.Id && i.Uid == uid)
+                               .UpdateColumns(i => new { i.Flag, i.Info, i.Time })
+                               .Where(i => i.Gid == GuildEventArgs.FromGroup.Id && i.Uid == uid)
                                .ExecuteCommandHasChange();
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return false;
             }
         }
@@ -635,8 +645,8 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
                 {
                     return dbClient
                            .Updateable(new MemberInfo
-                                           {SL = 0})
-                           .UpdateColumns(i => new {i.SL})
+                           { SL = 0 })
+                           .UpdateColumns(i => new { i.SL })
                            .Where(i => i.Gid == GuildEventArgs.FromGroup.Id && i.Uid == uid)
                            .ExecuteCommandHasChange();
                 }
@@ -644,21 +654,23 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
                 {
                     return dbClient
                            .Updateable(new MemberInfo
-                                           {Flag = FlagType.IDLE, SL = Utils.GetNowTimeStamp(), Time = Utils.GetNowTimeStamp(), Info = null})
-                           .UpdateColumns(i => new {i.Flag, i.SL, i.Time, i.Info})
+                           { Flag = FlagType.IDLE, SL = Utils.GetNowTimeStamp(), Time = Utils.GetNowTimeStamp(), Info = null })
+                           .UpdateColumns(i => new { i.Flag, i.SL, i.Time, i.Info })
                            .Where(i => i.Gid == GuildEventArgs.FromGroup.Id && i.Uid == uid)
                            .ExecuteCommandHasChange();
                 }
             }
             catch (Exception e)
             {
-                ConsoleLog.Error("Database error",ConsoleLog.ErrorLogBuilder(e));
+                ConsoleLog.Error("Database error", ConsoleLog.ErrorLogBuilder(e));
                 return false;
             }
         }
-        #endregion
+
+        #endregion 公有方法
 
         #region 私有方法
+
         /// <summary>
         /// 获取下一个周目的boss对应阶段
         /// </summary>
@@ -705,7 +717,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
         private int GetRoundPhase(int Round, SqlSugarClient dbClient)
         {
             //检查参数合法性
-            if(Round <= 0) throw new ArgumentOutOfRangeException(nameof(Round));
+            if (Round <= 0) throw new ArgumentOutOfRangeException(nameof(Round));
 
             //当前所处区服
             Server server =
@@ -737,6 +749,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers.PCRDBHelper
             if (Round > 0) nextPhase = maxPhase;
             return nextPhase;
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

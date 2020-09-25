@@ -8,8 +8,8 @@
     <ProjectGuid>{B20B6FCD-2817-49B3-9B07-689649C560D2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SuiseiBot.Code</RootNamespace>
-    <AssemblyName>SuiseiBot.Code</AssemblyName>
+    <RootNamespace>AuctionBot.Code</RootNamespace>
+    <AssemblyName>AuctionBot.Code</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -124,7 +124,11 @@
     <Compile Include="DatabaseUtils\Helpers\SubscriptionDBHelper.cs" />
     <Compile Include="DatabaseUtils\DBMsgUtils.cs" />
     <Compile Include="DatabaseUtils\Tables.cs" />
-    <Compile Include="Resource\CommandHelp\GuildCmdHelp.Designer.cs" />
+    <Compile Include="Resource\CommandHelp\GuildCmdHelp.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GuildCmdHelp.resx</DependentUpon>
+    </Compile>
     <Compile Include="IO\Config\ConfigClass\BiliSubscription.cs" />
     <Compile Include="IO\Config\Config.cs" />
     <Compile Include="IO\Config\ConfigClass\Hso.cs" />

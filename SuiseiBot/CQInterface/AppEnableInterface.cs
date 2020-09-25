@@ -1,22 +1,23 @@
+using AuctionBot.Code.DatabaseUtils;
+using AuctionBot.Code.Resource.CommandHelp;
+using Native.Sdk.Cqp.EventArgs;
 using System;
 using System.IO;
-using Native.Sdk.Cqp.EventArgs;
-using SuiseiBot.Code.DatabaseUtils;
-using SuiseiBot.Code.IO.Config;
-using SuiseiBot.Code.Resource.Commands;
-using SuiseiBot.Code.TimerEvent;
-using SuiseiBot.Code.Tool.LogUtils;
+using AuctionBot.Code.IO.Config;
+using AuctionBot.Code.Resource.Commands;
+using AuctionBot.Code.TimerEvent;
+using AuctionBot.Code.Tool.LogUtils;
 
 namespace SuiseiBot.Code.CQInterface
 {
     public static class AppEnableInterface
     {
         private static TimerInit timer;
-        public static void AppEnable(object sender, CQAppEnableEventArgs eventArgs)
+
+        public static void AppEnable(object sender, CQAppEnableEventArgs e)
         {
             try
             {
-<<<<<<< HEAD
                 //打开控制台
                 //ConsoleLog.AllocConsole();
                 Console.Title = @"SuiseiBot";
@@ -52,15 +53,12 @@ namespace SuiseiBot.Code.CQInterface
                     timer = new TimerInit(e.CQApi, config.LoadedConfig.SubscriptionConfig.FlashTime);
                 }
                 e.Handler = true;
-=======
-                InitAction(eventArgs);
->>>>>>> 595da16daf9d5c084bc0d3271b51119a04bab734
             }
             catch (Exception exception)
             {
-                ConsoleLog.Error("error",ConsoleLog.ErrorLogBuilder(exception));
+                ConsoleLog.Error("error", ConsoleLog.ErrorLogBuilder(exception));
             }
-            eventArgs.Handler = true;
+            e.Handler = true;
         }
 
         private static void InitAction(CQAppEnableEventArgs eventArgs)
@@ -95,7 +93,7 @@ namespace SuiseiBot.Code.CQInterface
             //初始化定时器线程
             if (config.LoadedConfig.ModuleSwitch.Bili_Subscription || config.LoadedConfig.ModuleSwitch.PCR_Subscription)
             {
-                ConsoleLog.Debug("Timer Init",$"flash span = {config.LoadedConfig.SubscriptionConfig.FlashTime}");
+                ConsoleLog.Debug("Timer Init", $"flash span = {config.LoadedConfig.SubscriptionConfig.FlashTime}");
                 timer = new TimerInit(eventArgs.CQApi, config.LoadedConfig.SubscriptionConfig.FlashTime);
             }
         }

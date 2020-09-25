@@ -1,12 +1,10 @@
+using Native.Sdk.Cqp.EventArgs;
+using SqlSugar;
 using System;
 using System.IO;
 using System.Threading;
-using Native.Sdk.Cqp.EventArgs;
-using SqlSugar;
-using SuiseiBot.Code.SqliteTool;
-using SuiseiBot.Code.Tool.LogUtils;
 
-namespace SuiseiBot.Code.DatabaseUtils
+namespace AuctionBot.Code.DatabaseUtils
 {
     internal static class DatabaseInit//数据库初始化类
     {
@@ -17,7 +15,7 @@ namespace SuiseiBot.Code.DatabaseUtils
         public static void Init(CQAppEnableEventArgs e)
         {
             string DBPath = SugarUtils.GetDBPath(e.CQApi.GetLoginQQ().Id.ToString());
-            ConsoleLog.Debug("IO",$"获取数据路径{DBPath}");
+            ConsoleLog.Debug("IO", $"获取数据路径{DBPath}");
             if (!File.Exists(DBPath))//查找数据文件
             {
                 //数据库文件不存在，新建数据库
@@ -27,10 +25,10 @@ namespace SuiseiBot.Code.DatabaseUtils
             }
             SqlSugarClient dbClient = new SqlSugarClient(new ConnectionConfig()
             {
-                ConnectionString      = $"DATA SOURCE={DBPath}",
-                DbType                = DbType.Sqlite,
+                ConnectionString = $"DATA SOURCE={DBPath}",
+                DbType = DbType.Sqlite,
                 IsAutoCloseConnection = true,
-                InitKeyType           = InitKeyType.Attribute
+                InitKeyType = InitKeyType.Attribute
             });
             try
             {
@@ -64,7 +62,7 @@ namespace SuiseiBot.Code.DatabaseUtils
             }
             catch (Exception exception)
             {
-                ConsoleLog.Fatal("数据库初始化错误",ConsoleLog.ErrorLogBuilder(exception));
+                ConsoleLog.Fatal("数据库初始化错误", ConsoleLog.ErrorLogBuilder(exception));
                 Thread.Sleep(5000);
                 throw;
             }

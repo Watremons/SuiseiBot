@@ -1,7 +1,7 @@
 using Native.Sdk.Cqp;
 using Native.Sdk.Cqp.EventArgs;
 
-namespace SuiseiBot.Code.DatabaseUtils
+namespace AuctionBot.Code.DatabaseUtils
 {
     internal class DBMsgUtils
     {

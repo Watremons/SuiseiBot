@@ -1,14 +1,15 @@
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SuiseiBot.Code.Tool.LogUtils;
+using System;
+using System.Collections.Generic;
+using AuctionBot.Code.Tool.LogUtils;
 
-namespace SuiseiBot.Code.Tool
+namespace AuctionBot.Code.Tool
 {
-    class JsonUtils
+    internal class JsonUtils
     {
         #region 进行Json文件的数据解析
+
         /// <summary>
         /// 在JObject中找到KeyNames所有字段的数据，并以string数组形式返回
         /// </summary>
@@ -53,6 +54,7 @@ namespace SuiseiBot.Code.Tool
         /// </param>
         /// <returns>返回一个JObject</returns>
         public static Func<string, JObject> ConvertJson = (jsonString) => (JObject)JsonConvert.DeserializeObject(jsonString);
-        #endregion
+
+        #endregion 进行Json文件的数据解析
     }
 }

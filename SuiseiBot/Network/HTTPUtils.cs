@@ -1,17 +1,18 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using SuiseiBot.Code.Tool.LogUtils;
+using AuctionBot.Code.Tool.LogUtils;
 
-namespace SuiseiBot.Code.Network
+namespace AuctionBot.Code.Network
 {
     internal class HTTPUtils
     {
         #region HTTP工具
+
         /// <summary>
         /// GET请求
         /// </summary>
@@ -137,7 +138,7 @@ namespace SuiseiBot.Code.Network
                 }
             };
             HttpWebRequest request = null;
-            //如果是发送HTTPS请求  
+            //如果是发送HTTPS请求
             if (url.StartsWith("https", StringComparison.OrdinalIgnoreCase))
             {
                 request = WebRequest.Create(url) as HttpWebRequest;
@@ -156,7 +157,7 @@ namespace SuiseiBot.Code.Network
 
             request.CookieContainer = cookies;
 
-            //发送POST数据  
+            //发送POST数据
             if (!(parameters == null || parameters.Count == 0))
             {
                 StringBuilder buffer = new StringBuilder();
@@ -202,7 +203,7 @@ namespace SuiseiBot.Code.Network
         public static HttpWebResponse CreatePostHttpResponse(string url, JObject parameters,
                                                              ref CookieContainer cookies, string userAgent = "Windows",
                                                              string ContentType = "application/x-www-form-urlencoded", string referer = null,
-                                                             int timeout = 3000,string CustomSource = null)
+                                                             int timeout = 3000, string CustomSource = null)
         {
             Dictionary<String, String> UAList = new Dictionary<String, String>
             {
@@ -220,7 +221,7 @@ namespace SuiseiBot.Code.Network
                 }
             };
             HttpWebRequest request = null;
-            //如果是发送HTTPS请求  
+            //如果是发送HTTPS请求
             if (url.StartsWith("https", StringComparison.OrdinalIgnoreCase))
             {
                 request = WebRequest.Create(url) as HttpWebRequest;
@@ -245,7 +246,7 @@ namespace SuiseiBot.Code.Network
                 request.Headers.Set("Custom-Source", CustomSource);
             }
 
-            //发送POST数据  
+            //发送POST数据
             if (!(parameters == null || parameters.Count == 0))
             {
                 string buffer = JsonConvert.SerializeObject(parameters);
@@ -259,12 +260,11 @@ namespace SuiseiBot.Code.Network
 
             foreach (string requestHeader in request.Headers)
             {
-                ConsoleLog.Debug("HTTP-Headers",$"{requestHeader}={request.Headers.GetValues(requestHeader)?[0]}");
+                ConsoleLog.Debug("HTTP-Headers", $"{requestHeader}={request.Headers.GetValues(requestHeader)?[0]}");
             }
 
             return request.GetResponse() as HttpWebResponse;
         }
-
 
         /// <summary>
         /// 获取请求的数据
@@ -277,6 +277,7 @@ namespace SuiseiBot.Code.Network
                 return reader.ReadToEnd();
             }
         }
-        #endregion
+
+        #endregion HTTP工具
     }
 }

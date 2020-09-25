@@ -1,12 +1,12 @@
+using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using SqlSugar;
 
-namespace SuiseiBot.Code.SqliteTool
+namespace AuctionBot.Code.SqliteTool
 {
     /// <summary>
     /// SQLite数据库ORM工具类
@@ -15,13 +15,14 @@ namespace SuiseiBot.Code.SqliteTool
     internal static class SugarUtils
     {
         #region IO辅助函数
+
         /// <summary>
         /// 获取应用数据库的绝对路径
         /// </summary>
         public static string GetDBPath(string dirName = null)
         {
             StringBuilder dbPath = new StringBuilder();
-            dbPath.Append(Environment.CurrentDirectory.Replace('\\','/'));
+            dbPath.Append(Environment.CurrentDirectory.Replace('\\', '/'));
             dbPath.Append("/data");
             //自定义二级文件夹
             if (!string.IsNullOrEmpty(dirName)) dbPath.Append($"/{dirName}");
@@ -44,9 +45,11 @@ namespace SuiseiBot.Code.SqliteTool
             dbPath.Append($"/{dbFileName}");
             return dbPath.ToString();
         }
-        #endregion
+
+        #endregion IO辅助函数
 
         #region 表辅助函数
+
         /// <summary>
         /// 删除表
         /// </summary>
@@ -84,23 +87,23 @@ namespace SuiseiBot.Code.SqliteTool
             if (string.IsNullOrEmpty(tableName)) tableName = SugarTableUtils.GetTableName<TableClass>();
             //写入创建新表指令
             cmd.CommandText = $"CREATE TABLE {tableName} (";
-            PropertyInfo[] properties   = typeof(TableClass).GetProperties();
-            int            i            = 0;
-            List<string>   primaryKeys  = new List<string>();
-            bool           haveIdentity = false;
+            PropertyInfo[] properties = typeof(TableClass).GetProperties();
+            int i = 0;
+            List<string> primaryKeys = new List<string>();
+            bool haveIdentity = false;
             foreach (PropertyInfo colInfo in properties)
             {
                 i++;
                 //写入字段信息
                 cmd.CommandText +=
-                    $"{SugarColUtils.GetColName(colInfo)} "    +
-                    $"{SugarColUtils.GetColType(colInfo)} "    +
+                    $"{SugarColUtils.GetColName(colInfo)} " +
+                    $"{SugarColUtils.GetColType(colInfo)} " +
                     $"{SugarColUtils.ColIsNullable(colInfo)} " +
                     $"{SugarColUtils.ColIsIdentity(colInfo)}";
                 if (i != properties.Length) cmd.CommandText += ",";
                 if (SugarColUtils.ColIsPrimaryKey(colInfo) && string.IsNullOrEmpty(SugarColUtils.ColIsIdentity(colInfo))
                 ) primaryKeys.Add(SugarColUtils.GetColName(colInfo));
-                if(!string.IsNullOrEmpty(SugarColUtils.ColIsIdentity(colInfo))) haveIdentity = true;
+                if (!string.IsNullOrEmpty(SugarColUtils.ColIsIdentity(colInfo))) haveIdentity = true;
             }
 
             if (primaryKeys.Count != 0 && !haveIdentity) //当有多主键时
@@ -140,9 +143,11 @@ namespace SuiseiBot.Code.SqliteTool
             cmd.CommandText = $"SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name = '{tableName}'";
             return Convert.ToBoolean(cmd.ExecuteScalar());
         }
-        #endregion
+
+        #endregion 表辅助函数
 
         #region 简单辅助函数
+
         /// <summary>
         /// 执行sql语句
         /// </summary>
@@ -161,9 +166,11 @@ namespace SuiseiBot.Code.SqliteTool
             if (!sugarClient.CurrentConnectionConfig.IsAutoCloseConnection) sugarClient.Close();
             return ret;
         }
-        #endregion
+
+        #endregion 简单辅助函数
 
         #region Client简单创建函数
+
         /// <summary>
         /// 创建一个SQLiteClient
         /// </summary>
@@ -173,12 +180,13 @@ namespace SuiseiBot.Code.SqliteTool
         {
             return new SqlSugarClient(new ConnectionConfig()
             {
-                ConnectionString      = $"DATA SOURCE={DBPath}",
-                DbType                = SqlSugar.DbType.Sqlite,
+                ConnectionString = $"DATA SOURCE={DBPath}",
+                DbType = SqlSugar.DbType.Sqlite,
                 IsAutoCloseConnection = true,
-                InitKeyType           = InitKeyType.Attribute
+                InitKeyType = InitKeyType.Attribute
             });
         }
-        #endregion
+
+        #endregion Client简单创建函数
     }
 }

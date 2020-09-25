@@ -1,15 +1,16 @@
-using System;
 using Native.Sdk.Cqp.EventArgs;
 using SqlSugar;
-using SuiseiBot.Code.SqliteTool;
-using SuiseiBot.Code.Tool;
-using SuiseiBot.Code.Tool.LogUtils;
+using System;
+using AuctionBot.Code.SqliteTool;
+using AuctionBot.Code.Tool;
+using AuctionBot.Code.Tool.LogUtils;
 
-namespace SuiseiBot.Code.DatabaseUtils.Helpers
+namespace AuctionBot.Code.DatabaseUtils.Helpers
 {
     internal class SuiseiDBHelper
     {
         #region 参数
+
         private long QQID { set; get; }             //QQ号
         private long GroupId { set; get; }          //群号
         private int CurrentFavorRate { set; get; }  //当前的好感度
@@ -19,9 +20,11 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers
         public SuiseiData UserData { set; get; }    //用户数据
         public CQGroupMessageEventArgs SuiseiGroupMessageEventArgs { private set; get; }
         public object Sender { private set; get; }
-        #endregion
+
+        #endregion 参数
 
         #region 构造函数
+
         /// <summary>
         /// 在接受到群消息时使用
         /// </summary>
@@ -36,9 +39,11 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers
             this.TriggerTime = Utils.GetTodayStamp();//触发日期
             DBPath = SugarUtils.GetDBPath(eventArgs.CQApi.GetLoginQQ().Id.ToString());
         }
-        #endregion
+
+        #endregion 构造函数
 
         #region Suisei数据库操作方法
+
         /// <summary>
         /// 触发后查找数据库返回读取到的值
         /// </summary>
@@ -60,19 +65,19 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers
                     UserData = SQLiteClient.Queryable<SuiseiData>()
                                            .Where(userInfo => userInfo.Uid == QQID && userInfo.Gid == GroupId)
                                            .First();
-                    IsExists         = true;
+                    IsExists = true;
                     CurrentFavorRate = UserData.FavorRate; //更新当前好感值
                 }
                 else //未找到签到记录
                 {
                     UserData = new SuiseiData //创建用户初始化数据
                     {
-                        Uid       = QQID,       //用户QQ
-                        Gid       = GroupId,    //用户所在群号
+                        Uid = QQID,       //用户QQ
+                        Gid = GroupId,    //用户所在群号
                         FavorRate = 0,          //好感度
-                        ChatDate  = TriggerTime //签到时间
+                        ChatDate = TriggerTime //签到时间
                     };
-                    IsExists         = false;
+                    IsExists = false;
                     CurrentFavorRate = 0;
                 }
             }
@@ -111,6 +116,7 @@ namespace SuiseiBot.Code.DatabaseUtils.Helpers
                 ConsoleLog.Error("suisei签到", $"数据库出现错误\n{e}");
             }
         }
-        #endregion
+
+        #endregion Suisei数据库操作方法
     }
 }

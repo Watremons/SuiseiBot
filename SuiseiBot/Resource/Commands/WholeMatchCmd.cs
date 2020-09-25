@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using SuiseiBot.Code.Resource.TypeEnum.CmdType;
+using AuctionBot.Code.Resource.TypeEnum.CmdType;
 
-namespace SuiseiBot.Code.Resource.Commands
+namespace AuctionBot.Code.Resource.Commands
 {
     internal static class WholeMatchCmd
     {
@@ -9,6 +9,7 @@ namespace SuiseiBot.Code.Resource.Commands
         /// 关键字初始化及存储
         /// </summary>
         public static Dictionary<string, WholeMatchCmdType> KeyWords = new Dictionary<string, WholeMatchCmdType>();
+
         public static void KeywordInit()
         {
             //1 娱乐功能
@@ -21,8 +22,8 @@ namespace SuiseiBot.Code.Resource.Commands
             //3 公主连结小功能
             //暂无(不是)
             //4 来点色图！
-            KeyWords.Add("来点色图",WholeMatchCmdType.Hso);
-            KeyWords.Add("来点涩图",WholeMatchCmdType.Hso);
+            KeyWords.Add("来点色图", WholeMatchCmdType.Hso);
+            KeyWords.Add("来点涩图", WholeMatchCmdType.Hso);
 
             KeyWords.Add("debug", WholeMatchCmdType.Debug);
         }

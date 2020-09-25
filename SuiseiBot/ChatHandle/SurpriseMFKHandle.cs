@@ -1,28 +1,31 @@
-using System;
 using Native.Sdk.Cqp.EventArgs;
 using Native.Sdk.Cqp.Model;
-using SuiseiBot.Code.Resource.TypeEnum.CmdType;
-using SuiseiBot.Code.Tool;
+using System;
 
 namespace SuiseiBot.Code.ChatHandle
 {
     internal class SurpriseMFKHandle
     {
         #region 属性
-        public  object                  Sender       { private set; get; }
-        public  CQGroupMessageEventArgs MFKEventArgs { private set; get; }
-        private Group                   QQGroup      { set;         get; }
-        #endregion
+
+        public object Sender { private set; get; }
+        public CQGroupMessageEventArgs MFKEventArgs { private set; get; }
+        private Group QQGroup { set; get; }
+
+        #endregion 属性
 
         #region 构造函数
+
         public SurpriseMFKHandle(object sender, CQGroupMessageEventArgs eventArgs)
         {
             this.MFKEventArgs = eventArgs;
             this.Sender = sender;
         }
-        #endregion
+
+        #endregion 构造函数
 
         #region 消息响应函数
+
         /// <summary>
         /// 消息接收函数
         /// </summary>
@@ -51,9 +54,11 @@ namespace SuiseiBot.Code.ChatHandle
                     break;
             }
         }
-        #endregion
+
+        #endregion 消息响应函数
 
         #region 私有方法
+
         private void RandomNumber()
         {
             Random randomGen = new Random();
@@ -62,7 +67,7 @@ namespace SuiseiBot.Code.ChatHandle
 
         private void RandomBan()
         {
-            Random   banTime     = new Random();
+            Random banTime = new Random();
             TimeSpan banTimeSpan = new TimeSpan(0, banTime.Next(1, 10), 0);
             MFKEventArgs.CQApi.SetGroupMemberBanSpeak(
                                                       QQGroup.Id,
@@ -78,6 +83,7 @@ namespace SuiseiBot.Code.ChatHandle
                                                       MFKEventArgs.FromQQ.Id,
                                                       banTimeSleep);
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

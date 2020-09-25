@@ -1,11 +1,12 @@
 using System.Collections.Generic;
-using SuiseiBot.Code.Resource.TypeEnum.CmdType;
+using AuctionBot.Code.Resource.TypeEnum.CmdType;
 
-namespace SuiseiBot.Code.Resource.Commands
+namespace AuctionBot.Code.Resource.Commands
 {
     internal static class AuctionCmd
     {
         public static Dictionary<string, AuctionCmdType> AuctionCommands = new Dictionary<string, AuctionCmdType>();
+
         /// <summary>
         /// 初始化公会相关的指令
         /// </summary>

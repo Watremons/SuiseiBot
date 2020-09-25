@@ -1,16 +1,17 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Globalization;
 using System.IO;
 using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using SuiseiBot.Code.Tool.LogUtils;
+using AuctionBot.Code.Tool.LogUtils;
 
-namespace SuiseiBot.Code.IO
+namespace AuctionBot.Code.IO
 {
     internal static class IOUtils
     {
         #region IO工具
+
         /// <summary>
         /// 获取错误报告路径
         /// </summary>
@@ -57,13 +58,15 @@ namespace SuiseiBot.Code.IO
         /// <param name="errorMessage">错误信息</param>
         public static void CrashLogGen(string errorMessage)
         {
-            string fileName = $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace('/', '-').Replace(':','-')}.log";
+            string fileName = $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace('/', '-').Replace(':', '-')}.log";
             using StreamWriter streamWriter = File.CreateText($@"{GetCrashLogPath()}/{fileName}");
             streamWriter.Write(errorMessage);
         }
-        #endregion
+
+        #endregion IO工具
 
         #region 文件读取工具
+
         /// <summary>
         /// 读取Json文件并返回为一个JObject
         /// </summary>
@@ -85,9 +88,10 @@ namespace SuiseiBot.Code.IO
             }
         }
 
-        #endregion
+        #endregion 文件读取工具
 
         #region 文件处理工具
+
         /// <summary>
         /// 解压程序，解压出的文件和原文件同路径
         /// </summary>
@@ -112,6 +116,7 @@ namespace SuiseiBot.Code.IO
                 }
             }
         }
-        #endregion
+
+        #endregion 文件处理工具
     }
 }

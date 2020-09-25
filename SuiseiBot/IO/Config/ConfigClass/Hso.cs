@@ -1,6 +1,4 @@
-using SuiseiBot.Code.Resource.TypeEnum;
-
-namespace SuiseiBot.Code.IO.Config.ConfigClass
+namespace AuctionBot.Code.IO.Config.ConfigClass
 {
     internal class Hso
     {
@@ -8,10 +6,12 @@ namespace SuiseiBot.Code.IO.Config.ConfigClass
         /// 色图源类型
         /// </summary>
         public SetuSourceType Source { set; get; }
+
         /// <summary>
         /// LoliconToken
         /// </summary>
         public string LoliconToken { set; get; }
+
         /// <summary>
         /// YukariToken
         /// </summary>

@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using Native.Sdk.Cqp;
-using SuiseiBot.Code.Resource.TypeEnum.CmdType;
+using System.Collections.Generic;
+using AuctionBot.Code.Resource.TypeEnum.CmdType;
 
-namespace SuiseiBot.Code.Resource.Commands
+namespace AuctionBot.Code.Resource.Commands
 {
     /// <summary>
     /// 存放需要参数的关键词
@@ -16,10 +16,10 @@ namespace SuiseiBot.Code.Resource.Commands
         /// </summary>
         public static void SpecialKeywordsInit(CQApi cqApi)
         {
-            Keywords.Add("查询排名",KeywordCmdType.PCRTools_GetGuildRank);
-            Keywords.Add("来点切噜",KeywordCmdType.Cheru_Encode);
-            Keywords.Add("切噜~",KeywordCmdType.Cheru_Decode);
-            Keywords.Add("切噜～",KeywordCmdType.Cheru_Decode);
+            Keywords.Add("查询排名", KeywordCmdType.PCRTools_GetGuildRank);
+            Keywords.Add("来点切噜", KeywordCmdType.Cheru_Encode);
+            Keywords.Add("切噜~", KeywordCmdType.Cheru_Decode);
+            Keywords.Add("切噜～", KeywordCmdType.Cheru_Decode);
 
             Keywords.Add("echo", KeywordCmdType.Debug_Echo);
             Keywords.Add(CQApi.CQCode_At(cqApi.GetLoginQQ().Id).ToString(), KeywordCmdType.At_Bot);

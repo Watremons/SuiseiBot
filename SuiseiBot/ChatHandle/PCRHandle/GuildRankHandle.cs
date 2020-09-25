@@ -1,35 +1,35 @@
-using System;
-using System.Threading.Tasks;
-using System.Web;
 using Native.Sdk.Cqp.EventArgs;
 using Native.Sdk.Cqp.Model;
 using Newtonsoft.Json.Linq;
-using SuiseiBot.Code.Network;
-using SuiseiBot.Code.Resource.TypeEnum;
-using SuiseiBot.Code.Resource.TypeEnum.CmdType;
-using SuiseiBot.Code.Tool;
-using SuiseiBot.Code.Tool.LogUtils;
+using System;
+using System.Threading.Tasks;
+using System.Web;
 
-namespace SuiseiBot.Code.ChatHandle.PCRHandle
+namespace AuctionBot.Code.ChatHandle.PCRHandle
 {
     internal class GuildRankHandle
     {
         #region 参数
-        public object                  Sender       { private set; get; }
-        public Group                   QQGroup      { private set; get; }
+
+        public object Sender { private set; get; }
+        public Group QQGroup { private set; get; }
         public CQGroupMessageEventArgs PCREventArgs { private set; get; }
-        #endregion
+
+        #endregion 参数
 
         #region 构造函数
+
         public GuildRankHandle(object sender, CQGroupMessageEventArgs e)
         {
             this.PCREventArgs = e;
-            this.Sender       = sender;
-            this.QQGroup      = PCREventArgs.FromGroup;
+            this.Sender = sender;
+            this.QQGroup = PCREventArgs.FromGroup;
         }
-        #endregion
+
+        #endregion 构造函数
 
         #region 消息响应函数
+
         /// <summary>
         /// 收到信息的函数
         /// 并匹配相应指令
@@ -47,9 +47,11 @@ namespace SuiseiBot.Code.ChatHandle.PCRHandle
             }
             PCREventArgs.Handler = true;
         }
-        #endregion
+
+        #endregion 消息响应函数
 
         #region 私有方法
+
         private async void GetGuildRank(string[] commandArgs)
         {
             //检查参数
@@ -58,9 +60,11 @@ namespace SuiseiBot.Code.ChatHandle.PCRHandle
                 case LenType.Illegal:
                     await BiliWikiRank(QQGroup.GetGroupInfo().Name);
                     break;
+
                 case LenType.Legitimate:
                     await BiliWikiRank(commandArgs[1]);
                     break;
+
                 default:
                 case LenType.Extra:
                     QQGroup.SendGroupMessage("有多余参数");
@@ -111,17 +115,16 @@ namespace SuiseiBot.Code.ChatHandle.PCRHandle
                 }
                 if (responseJArray.Count > 1) QQGroup.SendGroupMessage("查询到多个公会，可能存在重名或关键词错误");
 
-
                 if (responseJArray[0] is JObject rankData)
                 {
-                    string rank       = rankData["rank"]?.ToString();
+                    string rank = rankData["rank"]?.ToString();
                     string totalScore = rankData["damage"]?.ToString();
                     string leaderName = rankData["leader_name"]?.ToString();
                     ConsoleLog.Info("JSON处理成功", "向用户发送数据");
-                    QQGroup.SendGroupMessage("查询成功！\n"              +
-                                             $"公会:{guildName}\n"  +
-                                             $"排名:{rank}\n"       +
-                                             $"总分数:{totalScore}\n"  +
+                    QQGroup.SendGroupMessage("查询成功！\n" +
+                                             $"公会:{guildName}\n" +
+                                             $"排名:{rank}\n" +
+                                             $"总分数:{totalScore}\n" +
                                              $"会长:{leaderName}\n" +
                                              "如果查询到的信息有误，有可能关键词错误或公会排名在70000之后");
                 }
@@ -211,6 +214,7 @@ namespace SuiseiBot.Code.ChatHandle.PCRHandle
                 ConsoleLog.Error("JSON数据读取错误", e);
             }
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

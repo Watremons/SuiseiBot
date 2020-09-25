@@ -1,28 +1,29 @@
-using System;
 using Native.Sdk.Cqp.EventArgs;
+using System;
 
-namespace SuiseiBot.Code.ChatHandle
+namespace AuctionBot.Code.ChatHandle
 {
     internal class DefaultHandle
     {
         #region 属性
 
-        public object                  Sender    { private set; get; }
+        public object Sender { private set; get; }
         public CQGroupMessageEventArgs DebugEventArgs { private set; get; }
 
-        #endregion
+        #endregion 属性
 
         #region 构造函数
 
         public DefaultHandle(object sender, CQGroupMessageEventArgs e)
         {
             this.DebugEventArgs = e;
-            this.Sender    = sender;
+            this.Sender = sender;
         }
 
-        #endregion
+        #endregion 构造函数
 
         #region 消息响应函数
+
         /// <summary>
         /// 消息接收函数
         /// 并匹配相应指令
@@ -39,9 +40,11 @@ namespace SuiseiBot.Code.ChatHandle
                 Test();
             }
         }
-        #endregion/
+
+        #endregion 消息响应函数
 
         #region DEBUG
+
         /// <summary>
         /// echo打印函数
         /// </summary>
@@ -67,6 +70,7 @@ namespace SuiseiBot.Code.ChatHandle
             DebugEventArgs.FromGroup.SendGroupMessage("哇哦");
 #endif
         }
-        #endregion
+
+        #endregion DEBUG
     }
 }

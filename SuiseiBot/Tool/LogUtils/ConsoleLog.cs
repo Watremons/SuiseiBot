@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 
-namespace SuiseiBot.Code.Tool.LogUtils
+namespace AuctionBot.Code.Tool.LogUtils
 {
     /// <summary>
     /// 用来格式化输出的控制台Log的通用代码
@@ -12,15 +12,18 @@ namespace SuiseiBot.Code.Tool.LogUtils
     public class ConsoleLog
     {
         #region 控制台调用函数
+
         /// <summary>
         /// 打开控制台
         /// </summary>
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool AllocConsole();
-        #endregion
+
+        #endregion 控制台调用函数
 
         #region Log等级设置
+
         private static LogLevel Level = LogLevel.Info;
 
         /// <summary>
@@ -28,9 +31,11 @@ namespace SuiseiBot.Code.Tool.LogUtils
         /// </summary>
         /// <param name="level">LogLevel</param>
         public static void SetLogLevel(LogLevel level) => Level = level;
-        #endregion
+
+        #endregion Log等级设置
 
         #region 格式化错误Log
+
         public static string ErrorLogBuilder(Exception e)
         {
             StringBuilder errorMessageBuilder = new StringBuilder();
@@ -49,7 +54,7 @@ namespace SuiseiBot.Code.Tool.LogUtils
             return errorMessageBuilder.ToString();
         }
 
-        #endregion
+        #endregion 格式化错误Log
 
         #region 格式化控制台Log函数
 
@@ -166,19 +171,21 @@ namespace SuiseiBot.Code.Tool.LogUtils
             }
         }
 
-        #endregion
+        #endregion 格式化控制台Log函数
 
         #region 全局错误Log
+
         /// <summary>
         /// 全局错误Log
         /// </summary>
         /// <param name="e"></param>
         public static void UnhandledExceptionLog(Exception e)
         {
-            Fatal("UnhandledException",ErrorLogBuilder(e));
+            Fatal("UnhandledException", ErrorLogBuilder(e));
             Thread.Sleep(5000);
             Environment.Exit(0);
         }
-        #endregion
+
+        #endregion 全局错误Log
     }
 }
